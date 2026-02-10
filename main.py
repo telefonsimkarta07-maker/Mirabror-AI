@@ -1,7 +1,7 @@
 import telebot
 import google.generativeai as genai
 
-# Diqqat: Bu yerga o'z kalitlaringizni qo'ying
+# Kalitlarni o'zingizniki bilan almashtiring
 TELEGRAM_TOKEN = "944892092:AAFCtq05u_gxa82r-szQrHXUPXFPkjjYdfY"
 GEMINI_KEY = "This quickstart shows you how to install our libraries
 and make your first Gemini API request.
@@ -256,10 +256,15 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     try:
+        # Gemini-dan javob olish
         response = model.generate_content(message.text)
-        bot.reply_to(message, response.text)
+        
+        # Siz xohlagandek ismingizni qo'shamiz
+        final_text = f"Mirabrorning o'ylashicha:\n\n{response.text}"
+        
+        bot.reply_to(message, final_text)
     except Exception as e:
-        print(f"Xatolik: {e}")
+        print(f"Xatolik yuz berdi: {e}")
 
-print("Bot ishlamoqda...")
+print("Bot ishga tushdi...")
 bot.infinity_polling()
