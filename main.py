@@ -2,7 +2,7 @@ import telebot
 import google.generativeai as genai
 
 TELEGRAM_TOKEN = "944892092:AAFCtq05u_gxa82r-szQrHXUPXFPkjjYdfY"
-GEMINI_KEY = "AIzaSyDXRVtOBr6ze8fKc_1Nb5Mq2_QbNKko0o8"
+GEMINI_KEY = "AIzaSyCzlLyyybzvGtxtvUaJXYIbJo78JGUx4HI"
 
 genai.configure(api_key=GEMINI_KEY)
 model = genai.GenerativeModel('gemini-pro')
