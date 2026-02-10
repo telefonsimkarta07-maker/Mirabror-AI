@@ -10,7 +10,7 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Salom Doik Mirabror aka! Bot ishga tushdi.")
+    bot.reply_to(message, "Salom  Mirabror aka! Bot ishga tushdi.")
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
@@ -21,4 +21,4 @@ def echo_all(message):
         bot.reply_to(message, "Xatolik: API kalitni tekshiring.")
 
 bot.infinity_polling()
-    
+    bot.infinity_polling()
