@@ -21,4 +21,5 @@ def echo_all(message):
         bot.reply_to(message, "Xatolik: API kalitni tekshiring.")
 
 bot.infinity_polling()
-    bot.infinity_polling()
+bot.remove_webhook()
+bot.infinity_polling()
