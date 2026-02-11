@@ -1,37 +1,45 @@
 import telebot
+from telebot import types
 import google.generativeai as genai
 
-# 1. Telegram Bot Token
-TOKEN = "944892092:AAFCtq05u_gxa82r-szQrHXUPXFPkjjYdfY"
+# 1. YANGI MA'LUMOTLAR
+TOKEN = "7901300440:AAEg--9ejI2fWKxj9aEPwoNT1Mi333VmoT8"
+GEMINI_KEY = "AIzaSyAXvm1viAtu20KNsSmdgxuFc4S_tf5iZ1w"
 
-# 2. Gemini API Key (Siz yuborgan yangi kalit)
-GEMINI_KEY = "AIzaSyCzlLyyybzvGtxtvUaJXYIbJo78JGUx4HI"
-
-# Sozlamalar
+# Gemini sozlamalari
 genai.configure(api_key=GEMINI_KEY)
-
-# Render serveri qiynalmasligi uchun eng tezkor modelni tanladik
 model = genai.GenerativeModel('gemini-1.5-flash')
 bot = telebot.TeleBot(TOKEN)
 
+# Start buyrug'i (Tugmalar bilan)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    # Ismingizni talabingizga binoan "Doik"siz to'g'irladik
-    bot.reply_to(message, "Salom Mirabror aka! Bot ishga tushdi. Savolingizni yuboring.")
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("🤖 AI bilan suhbat")
+    btn2 = types.KeyboardButton("💡 Maslahat")
+    markup.add(btn1, btn2)
+    
+    bot.reply_to(message, "Assalomu alaykum, Doik Mirabror aka! Yangi botingiz ishga tushdi. Savolingizni yozing.", reply_markup=markup)
 
+# Xabarlarni qayta ishlash
 @bot.message_handler(func=lambda message: True)
-def echo_all(message):
+def handle_message(message):
     try:
-        # Gemini javobini olish
+        # Bot "yozmoqda..." holatini ko'rsatadi
+        bot.send_chat_action(message.chat.id, 'typing')
+        
+        # Sun'iy intellektdan javob olish
         response = model.generate_content(message.text)
+        
+        # Javobni qaytarish
         bot.reply_to(message, response.text)
     except Exception as e:
-        # Xatoni Render loglarida ko'rish uchun
-        print(f"Xatolik: {e}")
-        bot.reply_to(message, "Hozircha javob bera olmayman, qayta urinib ko'ring.")
+        print(f"Xato: {e}")
+        bot.reply_to(message, "Mirabror aka, ulanishda xato bo'ldi. Render'da 'Manual Deploy'ni bosing.")
 
-# Webhook to'sig'ini avtomatik yechish
 if __name__ == "__main__":
+    # Webhookni tozalash (xatolar oldini olish uchun)
     bot.remove_webhook()
     print("Bot muvaffaqiyatli ishga tushdi...")
+    bot.infinity_polling()
     bot.infinity_polling()
